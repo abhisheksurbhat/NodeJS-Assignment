@@ -1,0 +1,1 @@
+This is the example file. For NodeJS assignment. Some more text here.

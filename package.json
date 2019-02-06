@@ -1,0 +1,28 @@
+{
+  "name": "assignment",
+  "version": "1.0.0",
+  "description": "NodeJS Assignment",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test mocha test/**/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/abhishek.surbhat/nodejs-assignment.git"
+  },
+  "author": "Abhishek Surbhat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/abhishek.surbhat/nodejs-assignment/issues"
+  },
+  "homepage": "https://gitlab.com/abhishek.surbhat/nodejs-assignment#README",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.1",
+    "express": "^4.16.4",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.9",
+    "supertest": "^3.4.2"
+  }
+}
