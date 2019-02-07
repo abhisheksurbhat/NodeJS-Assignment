@@ -17,13 +17,14 @@
   },
   "homepage": "https://gitlab.com/abhishek.surbhat/nodejs-assignment#README",
   "dependencies": {
+    "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
     "express": "^4.16.4",
-    "js-crawler": "^0.3.21",
+    "jsdom": "^13.2.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.9",
-    "supertest": "^3.4.2"
+    "yargs": "^12.0.5"
   }
 }
