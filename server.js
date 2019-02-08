@@ -31,9 +31,11 @@ app.get('/multiply', (req, res) => {
     // console.log(req.query.id);
     if (Object.keys(req.query).length !== 2) {
         res.send('Send two parameters only');
+        return;
     }
     if (!(req.query.x && req.query.y)) {
         res.send('Set the parameters as x and y.\nFor Example: http://localhost:3001/multiply?x=7&y=4');
+        return;
     }
     res.send(`The result is: ${req.query.x*req.query.y}`);
 });
@@ -42,7 +44,8 @@ app.get('/multiply', (req, res) => {
 // file content and writes them to the disk. 
 app.post('/fileWrite', (req, res) => {
     if (Object.keys(req.body).length !== 1) {
-        res.send('Send one body content. In JSON format');
+        res.send('Send one body content. In JSON format. Make sure to set header "Content-type" to "application/json"');
+        return;
     }
     let key = Object.keys(req.body)[0];
     try {
@@ -60,6 +63,7 @@ app.get('/nonRepeatingCharacter', (req, res) => {
         for (const i of req.query.string) {
             if ((req.query.string.split(i).length - 1) == 1) {
                 res.send(`Non-repeating character is: ${i}`);
+                return;
             }
         }
         res.send('No non-repeating character');
