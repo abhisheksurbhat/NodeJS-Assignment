@@ -11,6 +11,7 @@ This is the main repository for the given NodeJS Assignment. The 5 questions ask
 ## Steps to start server
 
   The steps to get the application up and running are as follows:
+
     1. Clone the repo.
     2. Run `npm install`.
     3. For the first 4 questions, run `node server.js`. This will get the server running on port 3001.
