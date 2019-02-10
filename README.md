@@ -32,9 +32,9 @@ There are 4 routes in the main application - */outputFileContents*, */multiply*,
     * Check the ./data folder for a file 'thirdQuesOutput.txt' with the
         content written in the file.
 4. For  /nonRepeatingCharacter -
-        * Create a GET request for http://localhost:3001/nonRepeatingCharacter.
-        * Provide a parameter 'string' to be checked for non-repeating
-            characters.
+    * Create a GET request for http://localhost:3001/nonRepeatingCharacter.
+    * Provide a parameter 'string' to be checked for non-repeating
+        characters.
 
 For the crawler program, run `node crawler.js --site=https://sitename.com`. The site name has to be provided as a command line argument in the correct format as mentioned above.
 
