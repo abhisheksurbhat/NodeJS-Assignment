@@ -1,3 +1,9 @@
+/* 
+  Crawler program to go through a site and return all main links, and other
+  links(like img tags)
+      -Abhishek Surbhat
+*/
+
 const args = require('yargs');
 const axios = require('axios');
 const jsdom = require('jsdom');
@@ -6,9 +12,18 @@ const {
   JSDOM
 } = jsdom;
 
+//Check if sitename is provided. If not, return.
+if(!args.argv.site) {
+  console.log('Please provide the site name as an argument.');
+  console.log('In this format -> node crawler.js --site=https://sitename.com');
+  return;
+}
 const site = args.argv.site;
 const domain = site.split('/')[2];
 
+//Does a get request on a given site.
+//Input - Site name (has to be a valid pattern. For ex - https://www.google.co.in)
+//Output - a HTML document map of the site
 getSiteData = async (site) => {
   try {
     let response = await axios.get(site);
@@ -17,9 +32,14 @@ getSiteData = async (site) => {
     } = new JSDOM(response.data).window;
     return document;
   } catch (error) {
+    console.log('Site name has to be a valid pattern. For ex - https://www.google.co.in');
     return;
   }
 }
+
+//Gets all existing links under any given tag
+//Input - Site document and HTML tagname.
+//Output - all elements under the given tagname
 getLinks = async (document, tag) => {
   try {
     let links = await document.getElementsByTagName(tag);
@@ -28,15 +48,35 @@ getLinks = async (document, tag) => {
     return;
   }
 }
+
+//Checks if the link to be followed is of the same domain as the website
+//being traversed.
+//Input - href of a link
+//Output - true or false depending on if the link is traversible
 getLinkStatus = (link) => {
   try {
     return (link.split('/')[2] === domain) ? true : false;
   } catch (error) {
-    console.log("Error here");
+    console.log("Error at getLinkStatus");
     return;
   }
 }
 
+//Checks if link can be included in the sitemap
+//Input - href of a link
+//Output - true or false
+isLinkClean = (link) => {
+  try {
+    return link.includes(domain);
+  }
+  catch(err) {
+    return;
+  }
+}
+
+//Gets all possible links at one level
+//Input - site to be traversed, level count
+//Output - All links(main links, image links and other links)
 getOneLevelLinks = async (site, count) => {
   try {
     let document = await getSiteData(site);
@@ -51,7 +91,9 @@ getOneLevelLinks = async (site, count) => {
       if (getLinkStatus(link.href) && count === 0) {
         followALinks.push(link.href);
       }
-      cleanALinks.push(link.href);
+      if (isLinkClean(link.href)) {
+        cleanALinks.push(link.href);
+      }
     }
     for (const link of iLinks) {
       cleanILinks.push(link.src);
@@ -71,6 +113,10 @@ getOneLevelLinks = async (site, count) => {
   }
 }
 
+
+//Main program code. First, fetches all links from the given website link.
+//Then, we check for all traversible links, and traverse them. The final
+//result is written into a JSON file in the data folder.
 (
   async () => {
     let firstLinks = await getOneLevelLinks(site, 0);
@@ -78,6 +124,7 @@ getOneLevelLinks = async (site, count) => {
     let finalILinks = [];
     let finalOLinks = [];
     finalMainLinks = Array.from(firstLinks.links);
+    finalMainLinks = [...new Set(finalMainLinks)]; //to get unique links only
     finalILinks = Array.from(firstLinks.imgLinks);
     finalOLinks = Array.from(firstLinks.otherLinks);
     try {
