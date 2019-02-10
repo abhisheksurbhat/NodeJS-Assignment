@@ -10,12 +10,12 @@ This is the main repository for the given NodeJS Assignment. The 5 questions ask
 
 ## Steps to start server
 
-  The steps to get the application up and running are as follows:
+The steps to get the application up and running are as follows:
 
-    1. Clone the repo.
-    2. Run `npm install`.
-    3. For the first 4 questions, run `node server.js`. This will get the server running on port 3001.
-    4. For the Web crawler program, run `node crawler.js --site=https://examplesitename.com`.
+1. Clone the repo.
+2. Run `npm install`.
+3. For the first 4 questions, run `node server.js`. This will get the server running on port 3001.
+4. For the Web crawler program, run `node crawler.js --site=https://examplesitename.com`.
 
 ## Steps to run the application
 
