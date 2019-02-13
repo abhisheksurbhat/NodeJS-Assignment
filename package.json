@@ -4,7 +4,8 @@
   "description": "NodeJS Assignment",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha test/**/*.js"
+    "testServer": "set NODE_ENV=test && mocha test/server.test.js",
+    "testCrawler": "babel test/crawler.test.js -o test/second.test.js && mocha test/second.test.js"
   },
   "repository": {
     "type": "git",
@@ -18,13 +19,20 @@
   "homepage": "https://gitlab.com/abhishek.surbhat/nodejs-assignment#README",
   "dependencies": {
     "axios": "^0.18.0",
+    "babel-polyfill": "^6.26.0",
     "body-parser": "^1.18.3",
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
     "express": "^4.16.4",
     "jsdom": "^13.2.0",
     "mocha": "^5.2.0",
+    "morgan": "^1.9.1",
     "nodemon": "^1.18.9",
     "yargs": "^12.0.5"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1"
   }
 }

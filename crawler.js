@@ -13,13 +13,23 @@ const {
 } = jsdom;
 
 //Check if sitename is provided. If not, return.
-if(!args.argv.site) {
-  console.log('Please provide the site name as an argument.');
-  console.log('In this format -> node crawler.js --site=https://sitename.com');
-  return;
+checkArgs = () => {
+  if (!args.argv.site) {
+    console.log('Please provide the site name as an argument.');
+    console.log('In this format -> node crawler.js --site=https://sitename.com');
+    return false;
+  }
+  return true;
 }
-const site = args.argv.site;
-const domain = site.split('/')[2];
+//Get site details provided
+getSite = () => {
+  const site = args.argv.site;
+  const domain = site.split('/')[2];
+  return {
+    site,
+    domain
+  };
+}
 
 //Does a get request on a given site.
 //Input - Site name (has to be a valid pattern. For ex - https://www.google.co.in)
@@ -40,7 +50,7 @@ getSiteData = async (site) => {
 //Gets all existing links under any given tag
 //Input - Site document and HTML tagname.
 //Output - all elements under the given tagname
-getLinks = async (document, tag) => {
+const getLinks = async (document, tag) => {
   try {
     let links = await document.getElementsByTagName(tag);
     return links;
@@ -53,7 +63,7 @@ getLinks = async (document, tag) => {
 //being traversed.
 //Input - href of a link
 //Output - true or false depending on if the link is traversible
-getLinkStatus = (link) => {
+const getLinkStatus = (link, domain) => {
   try {
     return (link.split('/')[2] === domain) ? true : false;
   } catch (error) {
@@ -65,11 +75,10 @@ getLinkStatus = (link) => {
 //Checks if link can be included in the sitemap
 //Input - href of a link
 //Output - true or false
-isLinkClean = (link) => {
+const isLinkClean = (link, domain) => {
   try {
     return link.includes(domain);
-  }
-  catch(err) {
+  } catch (err) {
     return;
   }
 }
@@ -77,7 +86,7 @@ isLinkClean = (link) => {
 //Gets all possible links at one level
 //Input - site to be traversed, level count
 //Output - All links(main links, image links and other links)
-getOneLevelLinks = async (site, count) => {
+const getOneLevelLinks = async (site, count, domain) => {
   try {
     let document = await getSiteData(site);
     let aLinks = await getLinks(document, 'a');
@@ -88,10 +97,10 @@ getOneLevelLinks = async (site, count) => {
     let cleanILinks = [];
     let cleanOLinks = [];
     for (const link of aLinks) {
-      if (getLinkStatus(link.href) && count === 0) {
+      if (getLinkStatus(link.href, domain) && count === 0) {
         followALinks.push(link.href);
       }
-      if (isLinkClean(link.href)) {
+      if (isLinkClean(link.href, domain)) {
         cleanALinks.push(link.href);
       }
     }
@@ -119,7 +128,14 @@ getOneLevelLinks = async (site, count) => {
 //result is written into a JSON file in the data folder.
 (
   async () => {
-    let firstLinks = await getOneLevelLinks(site, 0);
+    console.log('Crawler running');
+    if (!checkArgs()) {
+      return;
+    }
+    let details = await getSite();
+    site = details.site;
+    domain = details.domain;
+    let firstLinks = await getOneLevelLinks(site, 0, domain);
     let finalMainLinks = [];
     let finalILinks = [];
     let finalOLinks = [];
@@ -129,19 +145,19 @@ getOneLevelLinks = async (site, count) => {
     finalOLinks = Array.from(firstLinks.otherLinks);
     try {
       for (const followLink of firstLinks.followLinks) {
-        let levelLinks = await getOneLevelLinks(followLink, 1);
+        let levelLinks = await getOneLevelLinks(followLink, 1, domain);
         for (const i of levelLinks.links) {
-          if (!finalMainLinks.includes(i)) {
+          if (!finalMainLinks.includes(i) && i.length!==0) {
             finalMainLinks.push(i);
           }
         }
         for (const i of levelLinks.imgLinks) {
-          if (!finalILinks.includes(i)) {
+          if (!finalILinks.includes(i) && i.length!==0) {
             finalILinks.push(i);
           }
         }
         for (const i of levelLinks.otherLinks) {
-          if (!finalOLinks.includes(i)) {
+          if (!finalOLinks.includes(i) && i.length!==0) {
             finalOLinks.push(i);
           }
         }
@@ -158,3 +174,11 @@ getOneLevelLinks = async (site, count) => {
     fs.writeFileSync(__dirname + '/data/crawlerOutput.json', JSON.stringify(finalOutput, null, 4));
   }
 )()
+
+module.exports = {
+  getSiteData,
+  getLinks,
+  getLinkStatus,
+  isLinkClean,
+  getOneLevelLinks
+}

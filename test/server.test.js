@@ -77,7 +77,7 @@ describe('NodeJS Assignment', () => {
 				.set('Content-type', 'application/json')
 				.send(testString)
 				.end((err, res) => {
-					expect(res.text).to.equal('Send one body content. In JSON format');
+					expect(res.text).to.equal('Send one body content. In JSON format. Make sure to set header "Content-type" to "application/json"');
 				});
 			done();
 		});

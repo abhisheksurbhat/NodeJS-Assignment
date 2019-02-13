@@ -3,9 +3,9 @@
 This is the main repository for the given NodeJS Assignment. The 5 questions asked are:
 
 1. Write a Nodejs server that listens on port 3001 and outputs a file content from any local directory
-2. Write a Nodejs server that serves as a RESTFUL API that takes two parameters in a GET call and produces their product. 
+2. Write a Nodejs server that serves as a RESTFUL API that takes two parameters in a GET call and produces their product.
 3. Write a Nodejs server that serves as a RESTFUL  API that accepts a file content and writes them to the disk.
-4. Write a Nodejs server that serves as a RESTFUL  API that accepts a String as an input name and returns the first non-repeating character in the String. 
+4. Write a Nodejs server that serves as a RESTFUL  API that accepts a String as an input name and returns the first non-repeating character in the String.
 5. Web Crawler program.
 
 ## Steps to start server
@@ -40,4 +40,7 @@ For the crawler program, run `node crawler.js --site=https://sitename.com`. The 
 
 ## Testing the application
 
-The unit tests are in the **tests** folder. To run the unit tests, run `npm test` in the terminal/console. 
+The unit tests are in the **tests** folder.
+
+1. To run the unit tests for server.js, run `npm run testServer` in the terminal/console.
+2. To run the unit tests for crawler.js, run `npm run testCrawler` in the terminal/console.
