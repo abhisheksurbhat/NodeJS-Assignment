@@ -19,7 +19,7 @@ The steps to get the application up and running are as follows:
 
 ## Steps to run the application
 
-There are 4 routes in the main application - */outputFileContents*, */multiply*, */fileWrite*, */nonRepeatingCharacter*. The steps to run them are as follows:
+* There are 4 routes in the main application - */outputFileContents*, */multiply*, */fileWrite*, */nonRepeatingCharacter*. The steps to run them are as follows:
 
 1. For '/outputFileContents' - Create a GET request for http://localhost:3001/outputFileContents.
 2. For /multiply -
@@ -36,7 +36,7 @@ There are 4 routes in the main application - */outputFileContents*, */multiply*,
     * Provide a parameter 'string' to be checked for non-repeating
         characters.
 
-For the crawler program, run `node crawler.js --site=https://sitename.com`. The site name has to be provided as a command line argument in the correct format as mentioned above.
+* For the crawler program, run `node crawler.js --site=https://sitename.com`. The site name has to be provided as a command line argument in the correct format as mentioned above.
 
 ## Testing the application
 
