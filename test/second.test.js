@@ -9,11 +9,6 @@ var chai = require('chai');
 var chaiHttp = require('chai-http');
 
 var expect = chai.expect;
-
-var fs = require('fs');
-
-// const crawlerFunctions = require('../crawler');
-// console.log(crawlerFunctions.isLinkC, "crawler functions");
 chai.use(chaiHttp);
 var website = {};
 describe('Crawler program', function () {
@@ -23,6 +18,8 @@ describe('Crawler program', function () {
       (0, _crawler.getSiteData)(site).then(function (res) {
         Object.assign(website, res);
         expect(res).to.exist;
+      }).catch(function (err) {
+        expect(err).to.exist;
       });
     });
   });
@@ -74,12 +71,14 @@ describe('Crawler program', function () {
       var domain = 'www.google.co.in';
       (0, _crawler.getOneLevelLinks)(site, 0, domain).then(function (res) {
         expect(res).to.be.an('object');
+      }).catch(function (err) {
+        expect(err).to.exist;
       });
     });
     it('returns empty object on error', function () {
-      var site = 'https://www.gogle.co.in';
+      var wrongSite = 'https://www.gogle.co.in';
       var domain = 'www.google.co.in';
-      (0, _crawler.getOneLevelLinks)(site, 0, domain).catch(function (err) {
+      (0, _crawler.getOneLevelLinks)(wrongSite, 0, domain).catch(function (err) {
         expect(err).to.be.true;
       });
     });

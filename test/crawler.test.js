@@ -15,30 +15,15 @@ chai.use(chaiHttp);
 let website = {};
 
 describe('Crawler program', () => {
-	describe('getOneLevelLinks', () => {
-		it('returns correct output', () => {
-			let site = 'https://www.google.co.in';
-			let domain = 'www.google.co.in';
-			getOneLevelLinks(site, 0, domain).then((res) => {
-				expect(res).to.be.an('object');
-			})
-		});
-		it('returns empty object on error', () => {
-			let site = 'https://www.gogle.co.in';
-			let domain = 'www.google.co.in';
-			getOneLevelLinks(site, 0, domain).catch((err) => {
-				expect(err).to.be.true;
-			});
-		});
-	});
 	describe('getSiteData', () => {
 		it('gets called', () => {
 			let site = 'https://www.google.co.in';
 			getSiteData(site).then((res) => {
 				Object.assign(website, res);
 				expect(res).to.exist;
+			}).catch((err) => {
+				expect(err).to.exist;
 			})
-
 		});
 	});
 	describe('getLinkStatus', () => {
@@ -80,6 +65,24 @@ describe('Crawler program', () => {
 				}).catch((err) => {
 					expect(err).to.exist;
 				})
+			});
+		});
+	});
+	describe('getOneLevelLinks', () => {
+		it('returns correct output', () => {
+			let site = 'https://www.google.co.in';
+			let domain = 'www.google.co.in';
+			getOneLevelLinks(site, 0, domain).then((res) => {
+				expect(res).to.be.an('object');
+			}).catch((err) => {
+				expect(err).to.exist;
+			})
+		});
+		it('returns empty object on error', () => {
+			let wrongSite = 'https://www.gogle.co.in';
+			let domain = 'www.google.co.in';
+			getOneLevelLinks(wrongSite, 0, domain).catch((err) => {
+				expect(err).to.be.true;
 			});
 		});
 	});

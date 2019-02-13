@@ -42,7 +42,7 @@ getSiteData = async (site) => {
     } = new JSDOM(response.data).window;
     return document;
   } catch (error) {
-    console.log('Site name has to be a valid pattern. For ex - https://www.google.co.in');
+    // console.log('Site name has to be a valid pattern. For ex - https://www.google.co.in');
     return;
   }
 }
